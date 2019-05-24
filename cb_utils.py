@@ -6,6 +6,7 @@ import numpy as np
 from station import Station
 import pandas as pd
 import datetime
+from math import inf
 
 
 def dist_bet(s1: Station, s2: Station):
@@ -40,6 +41,7 @@ def log_normalize(x: np.ndarray):
 
 
 def select_first_week(df: pd.DataFrame):
+    """Select the first seven days' data in the datafram"""
     res = []
     for ele in df.starttime:
         if datetime.datetime.strptime(ele, '%Y-%m-%d %H:%M:%S.%f').day <= 7:
@@ -47,3 +49,23 @@ def select_first_week(df: pd.DataFrame):
         else:
             res.append(False)
     return res
+
+
+def safety(k):
+    """Measure of potential rewards. More details in Solutions.pdf"""
+    if 0 <= k <= 5:
+        res = 2*k
+    elif 5 < k <= 15:
+        res = k + 5
+    elif 15 < k <= 20:
+        res = 20
+    elif 20 < k <= 25:
+        res = 40 - k
+    else:
+        res = -inf
+    return res
+
+
+def supplyA(k):
+    """Another measure of potential rewards. More details in Solutions.pdf"""
+    return safety(k-10) - safety(k)

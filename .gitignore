@@ -117,3 +117,4 @@ dmypy.json
 .idea/workspace.xml
 .idea/dictionaries/
 *.csv
+*.png

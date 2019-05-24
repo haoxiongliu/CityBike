@@ -14,15 +14,17 @@ class Station:
         self.latitude = latitude
         self.longitude = longitude
         self.capacity = 25  # given capacity of station 25
-        self.num_of_bike = 20  # given initial number of bikes
+        self.K = 20  # given initial number of bikes
+        self.popularity = 0
 
     def offer_bike(self):
         """
         when a customer starts at this station,
         return 0 for miss and 1 for success
         """
-        if self.num_of_bike:
-            self.num_of_bike -= 1
+        self.popularity += 1
+        if self.K:
+            self.K -= 1
             ret = 1
         else:
             ret = 0
@@ -33,10 +35,10 @@ class Station:
         when a customer stops at this station,
         return 0 for redirect and 1 for success
         """
-        if self.num_of_bike == self.capacity:
+        self.popularity -= 1
+        if self.K == self.capacity:
             ret = 0
         else:
-            self.num_of_bike += 1
+            self.K += 1
             ret = 1
         return ret
-
